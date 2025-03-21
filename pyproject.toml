@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "base-market-place"
+version = "0.1.0"
+description = ""
+authors = ["volkov_ts <volkow.timofey@yandex.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pymongo = "^4.11.1"
+g4f = "^0.4.6.0"
+python-dotenv = "^1.0.1"
+tqdm = "^4.67.1"
+pandas = "^2.2.3"
+grpcio = "^1.70.0"
+google = "^3.0.0"
+protobuf = "^5.29.3"
+openpyxl = "^3.1.5"
+pyarrow = "^19.0.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

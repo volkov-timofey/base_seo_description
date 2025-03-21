@@ -1,0 +1,48 @@
+{
+    "version": 1,
+    "disable_existing_loggers": false,
+    "formatters": {
+        "detailed": {
+            "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+        },
+        "simple": {
+            "format": "%(levelname)s - %(message)s"
+        }
+    },
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "level": "WARNING",
+            "formatter": "simple",
+            "stream": "ext://sys.stdout"
+        },
+        "file": {
+            "class": "logging.FileHandler",
+            "level": "WARNING",
+            "formatter": "detailed",
+            "filename": "/home/volkov/Документы/Repository/current_dev/client_market_place/client/logs/app.log",
+            "encoding": "utf-8"
+        }
+    },
+    "loggers": {
+        "urllib3": {
+            "level": "WARNING",
+            "handlers": ["console", "file"],
+            "propagate": false
+        },
+        "requests": {
+            "level": "WARNING",
+            "handlers": ["console", "file"],
+            "propagate": false
+        },
+        "asyncio": {
+            "level": "WARNING",
+            "handlers": ["console", "file"],
+            "propagate": false
+        }
+    },
+    "root": {
+        "level": "WARNING",
+        "handlers": ["console", "file"]
+    }
+}
