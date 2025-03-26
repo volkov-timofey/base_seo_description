@@ -22,21 +22,20 @@ from datetime import datetime
 
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from client.src.sima_grpc.api import SimaAPI_GRPC
-from client.src.staff_utils.add_data_to_template import save_formated_result_wb
+from client.src.staff_utils.add_data_to_template import save_formated_result_1c
 
 logger = logging.getLogger(__name__)
 load_dotenv()
 
 
 class SEOBaseDescription:
-    def __init__(self):
+    def __init__(self, base_dir: Path):
         self.g4f_client = g4f_client.Client()
-        self.base_path = os.getenv('BASE_PATH')
+        self.base_path = base_dir
         self.max_workers = int(os.getenv('max_workers'))
         self.chunk_size = self.max_workers * 35
         self.min_characters = int(os.getenv('min_characters'))
         self.max_characters = int(os.getenv('max_characters'))
-        # self.vc = GenerateTags()
         self.prompts_instructions_sub_description = (
             os.getenv('prompts_instructions_sub_description')
         )
@@ -46,12 +45,7 @@ class SEOBaseDescription:
         self.options_attr = None
         self.series = None
 
-        self.greet_text = f"""
-                    Вставьте полный путь до исходного файла,  
-                    Либо переместите ваш файл в директорию client/data/input_data c 
-                    именем input_data в формате *.csv или *.xlsx, *.xls
-                    и нажмите Enter --- >>>  
-                """
+        self.greet_text = os.getenv('greet')
 
     def _greeting(self):
         input_path = input(self.greet_text)
@@ -88,7 +82,7 @@ class SEOBaseDescription:
         attributes = ['attributes', 'options_attr', 'series']
 
         for attr_name, filename in zip(attributes, filenames):
-            full_path = Path(self.base_path) / 'client/data/backup_db' / filename
+            full_path = self.base_path / 'client/data/backup_db' / filename
             df = pd.read_parquet(full_path)
             dict_data = dict(zip(df['id'], df['name']))
             setattr(self, attr_name, dict_data)
@@ -339,7 +333,7 @@ class SEOBaseDescription:
         logger.info(f'Результаты - {result_list}')
 
         if result_list:
-            save_formated_result_wb(
+            save_formated_result_1c(
                 result_list,
                 f"success_wb_{datetime.now().strftime('%d-%m-%Y')} - {num_chunk}.xlsx"
             )
@@ -374,5 +368,5 @@ if __name__ == '__main__':
     list_vendor_codes_single = [9867538, 4847257]
     list_vendor_codes_combo = [10070997, 10057139, 10153829, 10652252, 9688259]
     list_photo_frame = [4336891]
-    description = SEOBaseDescription()
-    description.pipeline(list_vendor_codes_combo)
+    # description = SEOBaseDescription()
+    # description.pipeline(list_vendor_codes_combo)

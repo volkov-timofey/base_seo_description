@@ -1,4 +1,4 @@
 @echo off
 cd /d %~dp0
-poetry run python main.py
+poetry run python run_base.py
 pause
